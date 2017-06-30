@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html xmlns="http://www.w3.org/1999/xhtml">
+    <head>
+        <title>AJAX_APP </title>
+        <<meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        
+        <script>
+            function load()
+            {
+                var data_file = "http://162.17.231.114:121//SpinoService.svc/getcountrylist";
+                var doc=  new XMLHttpRequest();
+              
+                     doc.onreadystatechange = function()
+                     {
+                                          
+                     
+                         if(doc.readyState = 4)
+                         {
+                          var jsonObj= JSON.parse(doc.responseText);
+                          console.log(jsonObj);
+                          var trhtml = '';
+                          for (var i = 0; i < jsonObj.GetCountryListResult.length ; i++) 
+                          {
+                                trhtml += 
+                                        '<tr><td>'
+                                    + jsonObj.GetCountryListResult[i].country_code
+                                    + '</td><td>'
+                                    + jsonObj.GetCountryListResult[i].country_id
+                                    + '</td><td>'
+                                    + jsonObj.GetCountryListResult[i].country_name
+                                    + '</td></tr>';
+                
+                        }
+                          document.getElementById("tbody").innerHTML = trhtml;
+                        
+                         }
+                     };
+                       
+                            doc.open("GET", data_file, true);
+                            doc.send();
+
+                }
+             
+
+            
+        </script>
+        
+    </head>
+    <body>
+        
+        <div class="container">
+            
+            <table class=" table table-striped">
+                <thead>
+                    <tr class="warning">
+                        <th>country_code</th>
+                         <th>country_id</th>
+                          <th>country_name</th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+             
+            </table>
+            <input class="btn btn-danger" type="button" value="Get data" onclick="load()">
+            <input class="btn btn-info" type="button" value="Clear data" onclick="document.location='index.html'">
+        </div>
+    </body>
+</html>
